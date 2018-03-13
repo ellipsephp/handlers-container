@@ -1,7 +1,7 @@
 {
     "name": "ellipse/handlers-container",
     "type": "library",
-    "description": "Psr-15 handler proxying a Psr-11 container entry",
+    "description": "Psr-15 request handler proxying a Psr-11 container entry",
     "keywords": [
         "Psr-15",
         "Psr-11",
