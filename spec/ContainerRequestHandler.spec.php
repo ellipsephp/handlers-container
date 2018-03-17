@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 use Ellipse\Handlers\ContainerRequestHandler;
-use Ellipse\Handlers\Exceptions\ContainerRequestHandlerTypeException;
+use Ellipse\Handlers\Exceptions\ContainedRequestHandlerTypeException;
 
 describe('ContainerRequestHandler', function () {
 
@@ -56,7 +56,7 @@ describe('ContainerRequestHandler', function () {
 
         context('when the value retrieved from the container is not an object implementing RequestHandlerInterface', function () {
 
-            it('should throw a ContainerRequestHandlerTypeException', function () {
+            it('should throw a ContainedRequestHandlerTypeException', function () {
 
                 $this->container->get->with('SomeRequestHandler')->returns('handler');
 
@@ -66,7 +66,7 @@ describe('ContainerRequestHandler', function () {
 
                 };
 
-                $exception = new ContainerRequestHandlerTypeException('SomeRequestHandler', 'handler');
+                $exception = new ContainedRequestHandlerTypeException('SomeRequestHandler', 'handler');
 
                 expect($test)->toThrow($exception);
 

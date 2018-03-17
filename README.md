@@ -17,7 +17,7 @@ The class `Ellipse\Handlers\ContainerRequestHandler` takes an implementation of 
 
 It can be useful in situations the container entry should be resolved at the time the request is handled.
 
-An `Ellipse\Handlers\Exceptions\ContainerRequestHandlerTypeException` is thrown when the value retrieved from the container is not an object implementing `Psr\Http\Server\RequestHandlerInterface`.
+An `Ellipse\Handlers\Exceptions\ContainedRequestHandlerTypeException` is thrown when the value retrieved from the container is not an object implementing `Psr\Http\Server\RequestHandlerInterface`.
 
 ```php
 <?php

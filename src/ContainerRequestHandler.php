@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-use Ellipse\Handlers\Exceptions\ContainerRequestHandlerTypeException;
+use Ellipse\Handlers\Exceptions\ContainedRequestHandlerTypeException;
 
 class ContainerRequestHandler implements RequestHandlerInterface
 {
@@ -24,18 +24,19 @@ class ContainerRequestHandler implements RequestHandlerInterface
      *
      * @var string
      */
-    private $id;
+    private $handler;
 
     /**
-     * Set up a container request handler with the given container and id.
+     * Set up a container request handler with the given container and container
+     * id.
      *
      * @param \Psr\Container\ContainerInterface $container
-     * @param string                            $id
+     * @param string                            $handler
      */
-    public function __construct(ContainerInterface $container, string $id)
+    public function __construct(ContainerInterface $container, string $handler)
     {
         $this->container = $container;
-        $this->id = $id;
+        $this->handler = $handler;
     }
 
     /**
@@ -44,11 +45,11 @@ class ContainerRequestHandler implements RequestHandlerInterface
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Ellipse\Handlers\Exceptions\ContainerRequestHandlerTypeException
+     * @throws \Ellipse\Handlers\Exceptions\ContainedRequestHandlerTypeException
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $handler = $this->container->get($this->id);
+        $handler = $this->container->get($this->handler);
 
         if ($handler instanceof RequestHandlerInterface) {
 
@@ -56,6 +57,6 @@ class ContainerRequestHandler implements RequestHandlerInterface
 
         }
 
-        throw new ContainerRequestHandlerTypeException($this->id, $handler);
+        throw new ContainedRequestHandlerTypeException($this->handler, $handler);
     }
 }
