@@ -6,16 +6,14 @@ use TypeError;
 
 use Psr\Http\Server\RequestHandlerInterface;
 
+use Ellipse\Exceptions\ContainerEntryTypeErrorMessage;
+
 class ContainedRequestHandlerTypeException extends TypeError implements ContainerRequestHandlerExceptionInterface
 {
     public function __construct(string $id, $value)
     {
-        $template = "The value contained in the '%s' entry of the container is of type %s - object implementing %s expected";
+        $msg = new ContainerEntryTypeErrorMessage($id, $value, RequestHandlerInterface::class);
 
-        $type = is_object($value) ? get_class($value) : gettype($value);
-
-        $msg = sprintf($template, $id, $type, RequestHandlerInterface::class);
-
-        parent::__construct($msg);
+        parent::__construct((string) $msg);
     }
 }
