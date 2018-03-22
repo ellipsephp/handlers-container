@@ -47,12 +47,14 @@ $response = $handler->handle($request);
 
 ## Example using auto wiring
 
-It can be cumbersome to register every request handler in the container. Here is how to auto wire request handler classes using the `Ellipse\Container\ReflectionContainer` class from the [ellipse/container-reflection](https://github.com/ellipsephp/container-reflection) package.
+It can be cumbersome to register every request handler classes in the container. Here is how to auto wire request handler instances using the `Ellipse\Container\ReflectionContainer` class from the [ellipse/container-reflection](https://github.com/ellipsephp/container-reflection) package.
 
 ```php
 <?php
 
 namespace App;
+
+use Psr\Http\Server\RequestHandlerInterface;
 
 use SomePsr11Container;
 
@@ -63,11 +65,14 @@ use Ellipse\Handlers\ContainerRequestHandler;
 $container = new SomePsr11Container;
 
 // Decorate the container with a reflection container.
-$container = new ReflectionContainer($container);
+// Specify the request handler implementations can be auto wired.
+$reflection = new ReflectionContainer($container, [
+    RequestHandlerInterface::class,
+]);
 
-// Create a container request handler with the Psr-11 container and a request handler class name.
-$handler = new ContainerRequestHandler($container, SomeRequestHandler::class);
+// Create a container request handler with the reflection container and a request handler class name.
+$handler = new ContainerRequestHandler($reflection, SomeRequestHandler::class);
 
-// A new instance of SomeRequestHandler is built and its ->handle() method is proxied.
+// An instance of SomeRequestHandler is built and its ->handle() method is proxied.
 $response = $handler->handle($request);
 ```
